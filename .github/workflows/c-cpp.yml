@@ -1,4 +1,4 @@
-name: C++ CI
+name: Build C++ Project
 
 on: [push]
 
@@ -7,7 +7,12 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
+
     - name: Set up MSBuild path
       uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Restore NuGet packages
+      run: nuget restore ViveTrackerRecorder/RecordVR.sln
+
     - name: Build solution
-      run: msbuild ViveTrackerRecorder/RecordVR.sln /p:Configuration=Release
+      run: msbuild ViveTrackerRecorder/RecordVR.sln /p:Configuration=Release /p:Platform="x64"
